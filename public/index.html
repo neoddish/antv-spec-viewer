@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AntV Spec Viewer</title>
+    <script src="https://unpkg.com/@antv/g2@5.0.0-beta.13/dist/g2.min.js"></script>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
+      function getArg(name) {
+        var str = window.location.search;
+        if (str.indexOf(name) != -1) {
+          var pos_start = str.indexOf(name) + name.length + 1;
+          var pos_end = str.indexOf("&", pos_start);
+          if (pos_end == -1) {
+            return str.substring(pos_start);
+          } else {
+            return null;
+          }
+        }
+      }
+
+      // try sample:
+      // ?spec={"type":"interval","data":[{"genre":"Sports","sold":275},{"genre":"Strategy","sold":115},{"genre":"Action","sold":120}],"encode":{"x":"genre","y":"sold"}}
+
+      const spec = getArg("spec");
+
+      if (!spec) {
+        document.getElementById("container").innerHTML = "invalid spec!";
+      } else {
+        const specObj = JSON.parse(decodeURI(spec));
+
+        const chart = new G2.Chart({
+          container: "container",
+        });
+
+        chart.options(specObj);
+
+        chart.render();
+      }
+    </script>
+  </body>
+</html>
