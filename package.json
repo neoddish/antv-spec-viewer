@@ -1,0 +1,20 @@
+{
+  "name": "antv-spec-viewer",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "gh-pages -d public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neoddish/antv-spec-viewer.git"
+  },
+  "author": "neoddish",
+  "license": "MIT",
+  "homepage": "https://neoddish.github.io/antv-spec-viewer",
+  "devDependencies": {
+    "gh-pages": "^5.0.0"
+  }
+}
