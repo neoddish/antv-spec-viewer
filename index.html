@@ -22,15 +22,24 @@
         }
       }
 
-      // try sample:
-      // ?spec={"type":"interval","data":[{"genre":"Sports","sold":275},{"genre":"Strategy","sold":115},{"genre":"Action","sold":120}],"encode":{"x":"genre","y":"sold"}}
+      const urlWithExampleSpec =
+        window.location.href +
+        `?spec={"type":"interval","data":[{"genre":"Sports","sold":275},{"genre":"Strategy","sold":115},{"genre":"Action","sold":120}],"encode":{"x":"genre","y":"sold"}}`;
 
+      // var: spec argument from url
       const spec = getArg("spec");
 
       if (!spec) {
-        document.getElementById("container").innerHTML = "invalid spec!";
+        // TODO: use JSON Schema Validator to check the spec ONCE G2-spec JSON Schema is ready.
+        document.getElementById(
+          "container"
+        ).innerHTML = `<h1>invalid spec!</h1><p>Try URL with a valid spec argument:</p><p><a href="${encodeURI(
+          urlWithExampleSpec
+        )}">${urlWithExampleSpec}</a></p>`;
       } else {
         const specObj = JSON.parse(decodeURI(spec));
+
+        specObj.animate = false; // for screenshot
 
         const chart = new G2.Chart({
           container: "container",
@@ -38,7 +47,20 @@
 
         chart.options(specObj);
 
-        chart.render();
+        let chartShotData = "";
+
+        chart
+          .render()
+          .then(() => {
+            chartShotData = document
+              .getElementById("container")
+              .getElementsByTagName("canvas")[0]
+              .toDataURL();
+            console.log(chartShotData);
+          })
+          .catch(() => {
+            console.log("Failed!"); // TODO: wait for G2 v5 update catch function
+          });
       }
     </script>
   </body>
